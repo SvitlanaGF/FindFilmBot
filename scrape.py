@@ -2,18 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import re
 import numpy as np
-import pywhatkit as pwt
-from collections import Counter
-# https://megogo.net/ua/search-extended?category_id=16&country_id=ua&main_tab=filters&sort=rating_imdb&video_genre_id=comedy
 
-class Scrape:
-    def __init__(self, url):
-        self.url = url
-
-    def soup_(self):
-        response = requests.get(url=self.url)
-        soup = BeautifulSoup(response.text, 'html.parser')
-        return soup
 
 def find_top(video_genre_id = None, ua=False):
     try:
@@ -31,14 +20,19 @@ def find_top(video_genre_id = None, ua=False):
     except Exception as e:
         print(e)
 
-def find_actor(actor_name:str):
+
+def find_(name:str, actor=True):
     try:
-        url = f"https://en.wikipedia.org/wiki/{'_'.join(actor_name.title().split(' '))}"
+        if actor == True:
+            n = 'Name'
+        else:
+            n = 'Title'
+        url = f"https://en.wikipedia.org/wiki/{'_'.join(name.title().split(' '))}"
         response = requests.get(url=url)
         soup = BeautifulSoup(response.text, 'html.parser')
         find = soup('table', {'class':"infobox"})
         bio = []
-        bio.append(f'Name --- {actor_name.title()}\n---------------------------')
+        bio.append(f'{n} --- {name.title()}\n---------------------------')
         for i in find:
             for j in i.find_all('tr'):
                 h = j.find_all('th')
@@ -49,5 +43,6 @@ def find_actor(actor_name:str):
         return list(bio)
     except Exception as e:
         print(e)
+
 # re.search("<h3.+>(.+)</h3>",str(name)).group(0)
 
