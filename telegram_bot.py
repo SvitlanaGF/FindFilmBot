@@ -11,7 +11,9 @@ bot_usname = '@Filmother_bot'
 
 async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('Hello! I`m Filmother. I know everything(or almost everything🙂) about movies🎥. '
-                                    'So, I`m ready to help you😇.\nHere all my commands:\n/help --> all commands\n/film_list --> list of movies by genre\n/actor --> information about the actor')
+                                    'So, I`m ready to help you😇.\nHere all my commands:\n/help --> all commands\n'
+                                    '/film_list --> list of movies by genre\n/actor --> information about the actor\n'
+                                    '/movie --> information about the movie')
 
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -24,11 +26,11 @@ async def tops(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def find_information_about_actor(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text('Write name and surname of an actor in te format:"Actor/Actress: {name surname}"')
+    await update.message.reply_text('Write name and surname of an actor in the format:"Actor/Actress: {name surname}"')
 
 
 async def find_information_about_movie(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text('Write movie title in te format:"Movie: {title}"')
+    await update.message.reply_text('Write movie title in the format:"Movie: {title}"')
 
 
 def responses(text):
@@ -71,13 +73,3 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         response = responses(txt)
     print('Bot:', response)
     await update.message.reply_text(response)
-
-if __name__ == '__main__':
-    app = Application.builder().token(TOKEN).build()
-    app.add_handler(CommandHandler('help', help))
-    app.add_handler(CommandHandler("film_list", tops))
-    app.add_handler(CommandHandler('actor', find_information_about_actor))
-
-    app.add_handler(MessageHandler(filters.TEXT, handle_message))
-    app.add_error_handler(error)
-    app.run_polling(poll_interval=3)
